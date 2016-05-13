@@ -26,7 +26,7 @@ import (
 
 ## Usage
 
-Bellow you can find few examples designed to guide you.
+Bellow you can find few examples on how to use [sift-golang].
 
 ### Track an event
 
@@ -165,3 +165,4 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 [Contribution Guide]: <https://github.com/0x19/sift-golang/blob/master/CONTRIBUTING.md>
+[sift-golang]: <https://github.com/0x19/sift-golang>
