@@ -11,7 +11,6 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"strings"
 	"time"
@@ -120,9 +119,6 @@ func (c *Client) HttpRequest(method string, url string, params map[string]interf
 
 	defer resp.Body.Close()
 
-	log.Println("response Status:", resp.Status)
-	log.Println("response Headers:", resp.Header)
-
 	r := Response{
 		HTTPStatus:       resp.Status,
 		HTTPStatusCode:   resp.StatusCode,
@@ -134,7 +130,10 @@ func (c *Client) HttpRequest(method string, url string, params map[string]interf
 		return &r, err
 	}
 
-	log.Println("response Body:", string(body))
+	// If it's 204 or 304 return what we have, without error
+	if _, ok := NoContentStatusCodes[resp.StatusCode]; ok {
+		return &r, nil
+	}
 
 	if err := json.Unmarshal([]byte(body), &r); err != nil {
 		return &r, err

@@ -21,7 +21,7 @@ var (
 		-2:  "Unexpected server-side error",
 		-1:  "Unexpected server-side error",
 		0:   "Success",
-		51:  "Invalid API key",
+		51:  "Invalid API Key. Please check your credentials and try again.",
 		52:  "Invalid characters in field name",
 		53:  "Invalid characters in field value",
 		54:  "Specified user_id has no scoreable events",
