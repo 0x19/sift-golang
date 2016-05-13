@@ -6,8 +6,46 @@ Unofficial Sift Science API (Golang client)
 
 Lorem
 
-### Some usage....
-Lorem ipsum ...
+### Track an event
+
+Here's an example that sends a $transaction event to sift.
+
+```go
+package main
+
+import (
+  sift "github.com/0x19/sift-golang"
+)
+
+sift := sift.New("your_api_key")
+
+// Name of the event. Can be pre-defined such as $transaction and custom
+// such as "my_custom_event"
+eventName := "$transaction"
+
+data := map[string]interface{}{
+  "$user_id":          "someone@someone.com",
+  "$transaction_id":   "1233456",
+  "$currency_code":    "USD",
+  "$amount":           15230000,
+  "$time":             1327604222,
+  "trip_time":         930,
+  "distance_traveled": 5.26,
+  "$order_id":         "ORDER-123124124",
+}
+
+extras := map[string]interface{}{
+  "return_score":  true,
+  "return_action": true,
+},
+
+record, err := sift.Track(eventName, data, record)
+if err != nil {
+  panic(err)
+}
+
+log.Printf("Got tracking record: %v", record)
+```
 
 
 
