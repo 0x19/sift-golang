@@ -3,7 +3,10 @@
 
 package sift
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 // Sift -
 type Sift struct {
@@ -33,6 +36,11 @@ func (s *Sift) Track(event string, properties map[string]interface{}, args map[s
 	}
 
 	return s.GetRequest("POST", s.GetEventsUrl(), properties)
+}
+
+// Score -
+func (s *Sift) Score(userId string) (*Response, error) {
+	return s.GetRequest("GET", fmt.Sprintf("%s?api_key=%s", s.GetScoreUrl(userId), s.ApiKey), map[string]interface{}{})
 }
 
 // New - Return Sift API client.

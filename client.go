@@ -8,12 +8,15 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
 	"time"
 )
+
+type ActionResponse struct{}
 
 // Response -
 type Response struct {
@@ -23,10 +26,14 @@ type Response struct {
 	HTTPStatusHeader http.Header `json:"-"`
 	HTTPResponseBody string      `json:"-"`
 	// ------------------------------------------------------------
-	Status       int           `json:"status"`
-	ErrorMessage string        `json:"error_message"`
-	Time         time.Duration `json:"time"`
-	Request      string        `json:"request"`
+
+	Status       int              `json:"status,omitempty"`
+	UserID       string           `json:"user_id,omitempty"`
+	ErrorMessage string           `json:"error_message,omitempty"`
+	Time         time.Duration    `json:"time,omitempty"`
+	Score        int              `json:"score,omitempty"`
+	Request      string           `json:"request,omitempty"`
+	Actions      []ActionResponse `json:"actions,omitempty"`
 }
 
 // IsOK - Check status of response. Is it error'ed or succeed?
@@ -111,20 +118,26 @@ func (c *Client) BuildApiUrl(uri string) string {
 
 // GetRequest -
 func (c *Client) GetRequest(method string, url string, params map[string]interface{}) (*Response, error) {
-
-	// Set this here so it acts as global configuration
-	params["$api_key"] = c.ApiKey
-
 	if _, ok := AvailableMethods[strings.ToUpper(method)]; !ok {
 		return nil, fmt.Errorf("Passed request (method: %s) is not supported by Sift Science yet!", method)
 	}
 
-	b, err := json.Marshal(params)
-	if err != nil {
-		return nil, err
+	var rbytes io.Reader
+	var err error
+
+	// Set this here so it acts as global configuration
+	if method != "GET" {
+		params["$api_key"] = c.ApiKey
+
+		b, err := json.Marshal(params)
+		if err != nil {
+			return nil, err
+		}
+
+		rbytes = bytes.NewBuffer(b)
 	}
 
-	req, err := http.NewRequest(method, url, bytes.NewBuffer(b))
+	req, err := http.NewRequest(method, url, rbytes)
 	req.Header.Set("User-Agent", c.UserAgent())
 	req.Header.Set("Content-Type", "application/json")
 
