@@ -1,10 +1,25 @@
 # sift-golang
 Unofficial Sift Science API (Golang client)
 
+## Installation
+
+Installation for this package should be straight forward.
+
+```sh
+go get github.com/0x19/sift-golang
+```
+
+Once it's installed you can import it as
+
+```go
+import (
+  sift "github.com/0x19/sift-golang"
+)
+```
 
 ## Usage
 
-Lorem
+Bellow you can find few examples designed to guide you.
 
 ### Track an event
 
@@ -73,6 +88,47 @@ if err != nil {
 
 log.Printf("Got label record: %v", record)
 ```
+
+## Remove label from user
+
+```go
+package main
+
+import (
+  "log"
+  sift "github.com/0x19/sift-golang"
+)
+
+sift := sift.New("your_api_key")
+
+record, err := sift.UnLabel("some-user-id")
+if err != nil {
+  panic(err)
+}
+
+log.Printf("Got un label record: %v", record)
+```
+
+## Get user's score
+
+```go
+package main
+
+import (
+  "log"
+  sift "github.com/0x19/sift-golang"
+)
+
+sift := sift.New("your_api_key")
+
+record, err := sift.Score("some-user-id")
+if err != nil {
+  panic(err)
+}
+
+log.Printf("Got user (score: %v) record: %v", record.Score, record)
+```
+
 
 ## License
 

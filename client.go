@@ -109,8 +109,9 @@ func (c *Client) HttpRequest(method string, url string, params map[string]interf
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
+
 	defer resp.Body.Close()
 
 	log.Println("response Status:", resp.Status)
