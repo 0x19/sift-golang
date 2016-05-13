@@ -136,6 +136,9 @@ if err != nil {
 log.Printf("Got user (score: %v) record: %v", record.Score, record)
 ```
 
+## Contributions
+
+Please make sure to read [Contribution Guide] if you are interested into code contributions :)
 
 ## License
 
@@ -160,3 +163,5 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+[Contribution Guide]: <https://github.com/0x19/sift-golang/blob/master/CONTRIBUTING.md>
