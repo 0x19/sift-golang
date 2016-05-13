@@ -14,6 +14,7 @@ Here's an example that sends a $transaction event to sift.
 package main
 
 import (
+  "log"
   sift "github.com/0x19/sift-golang"
 )
 
