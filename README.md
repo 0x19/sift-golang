@@ -30,7 +30,7 @@ Once it's installed you can import it as
 
 ```go
 import (
-  sift "github.com/0x19/sift-golang"
+	"github.com/0x19/sift-golang"
 )
 ```
 
