@@ -1,5 +1,6 @@
 [![License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/0x19/sift-golang/tree/master/LICENSE)
 [![Build Status](https://travis-ci.org/0x19/sift-golang.svg?branch=master)](https://travis-ci.org/0x19/sift-golang)
+
 [![Go 1.3 Ready](https://img.shields.io/badge/Go%201.3-Ready-green.svg?style=flat)]()
 [![Go 1.4 Ready](https://img.shields.io/badge/Go%201.4-Ready-green.svg?style=flat)]()
 [![Go 1.5 Ready](https://img.shields.io/badge/Go%201.5-Ready-green.svg?style=flat)]()
