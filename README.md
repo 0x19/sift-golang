@@ -15,7 +15,7 @@ Things that are done/supported and those that yet need to be supported
 - [x] Events API
 - [x] Label API
 - [x] Score API
-- Device Fingerprinting API
+- [] Device Fingerprinting API
 
 ## Installation
 
