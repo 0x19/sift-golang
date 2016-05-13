@@ -45,38 +45,41 @@ Here's an example that sends a $transaction event to sift.
 package main
 
 import (
-  "log"
-  sift "github.com/0x19/sift-golang"
+	"log"
+
+	"github.com/0x19/sift-golang"
 )
 
-sift := sift.New("your_api_key")
+func main() {
+	s := sift.New("your_api_key")
 
-// Name of the event. Can be pre-defined such as $transaction and custom
-// such as "my_custom_event"
-eventName := "$transaction"
+	// Name of the event. Can be pre-defined such as $transaction and custom
+	// such as "my_custom_event"
+	eventName := "$transaction"
 
-data := map[string]interface{}{
-  "$user_id":          "someone@someone.com",
-  "$transaction_id":   "1233456",
-  "$currency_code":    "USD",
-  "$amount":           15230000,
-  "$time":             1327604222,
-  "trip_time":         930,
-  "distance_traveled": 5.26,
-  "$order_id":         "ORDER-123124124",
+	data := map[string]interface{}{
+		"$user_id":          "someone@someone.com",
+		"$transaction_id":   "1233456",
+		"$currency_code":    "USD",
+		"$amount":           15230000,
+		"$time":             1327604222,
+		"trip_time":         930,
+		"distance_traveled": 5.26,
+		"$order_id":         "ORDER-123124124",
+	}
+
+	extras := map[string]interface{}{
+		"return_score":  true,
+		"return_action": true,
+	}
+
+	r, err := s.Track(eventName, data, extras)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("Got tracking record: %v", r)
 }
-
-extras := map[string]interface{}{
-  "return_score":  true,
-  "return_action": true,
-},
-
-record, err := sift.Track(eventName, data, record)
-if err != nil {
-  panic(err)
-}
-
-log.Printf("Got tracking record: %v", record)
 ```
 
 ## Label a user as good or bad
@@ -85,24 +88,26 @@ log.Printf("Got tracking record: %v", record)
 package main
 
 import (
-  "log"
-  sift "github.com/0x19/sift-golang"
+	"log"
+
+	"github.com/0x19/sift-golang"
 )
 
-sift := sift.New("your_api_key")
+func main() {
+	s := sift.New("your_api_key")
 
-data := map[string]interface{}{
-  "$is_bad":       true,
-  "$reasons":      []string{"$chargeback", "$fraud"},
-  "$description":  "Some description about this user..."
+	record, err := s.Label("some-user-id", map[string]interface{}{
+		"$is_bad":      true,
+		"$reasons":     []string{"$chargeback", "$fraud"},
+		"$description": "Some description about this user...",
+	})
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("Got label record: %v", record)
 }
-
-record, err := sift.Label("some-user-id", data)
-if err != nil {
-  panic(err)
-}
-
-log.Printf("Got label record: %v", record)
 ```
 
 ## Remove label from user
@@ -111,18 +116,23 @@ log.Printf("Got label record: %v", record)
 package main
 
 import (
-  "log"
-  sift "github.com/0x19/sift-golang"
+	"log"
+
+	"github.com/0x19/sift-golang"
 )
 
-sift := sift.New("your_api_key")
+func main() {
+	s := sift.New("your_api_key")
 
-record, err := sift.UnLabel("some-user-id")
-if err != nil {
-  panic(err)
+	response, err := s.UnLabel("some-user-id")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("Got un-label response: %v", response)
 }
 
-log.Printf("Got un label record: %v", record)
 ```
 
 ## Get user's score
@@ -131,18 +141,22 @@ log.Printf("Got un label record: %v", record)
 package main
 
 import (
-  "log"
-  sift "github.com/0x19/sift-golang"
+	"log"
+
+	"github.com/0x19/sift-golang"
 )
 
-sift := sift.New("your_api_key")
+func main() {
+	s := sift.New("your_api_key")
 
-record, err := sift.Score("some-user-id")
-if err != nil {
-  panic(err)
+	record, err := s.Score("some-user-id")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("Got score response: %v", record)
 }
-
-log.Printf("Got user (score: %v) record: %v", record.Score, record)
 ```
 
 ## Contributions
