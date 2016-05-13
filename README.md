@@ -8,6 +8,15 @@
 # sift-golang
 Unofficial Sift Science API (Golang client)
 
+## Todo
+
+Things that are done/supported and those that yet need to be supported
+
+- [x] Events API
+- [x] Label API
+- [x] Score API
+- Device Fingerprinting API
+
 ## Installation
 
 Installation for this package should be straight forward.
