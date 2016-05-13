@@ -1,5 +1,6 @@
-//
-//
+// Copyright 2016 Nevio Vesic
+// Please check out LICENSE file for more information about what you CAN and what you CANNOT do!
+// MIT License
 
 package sift
 
@@ -66,22 +67,24 @@ func (c *Client) UserAgent() string {
 	return fmt.Sprintf("SiftScience/%d sift-golang/%s", c.ApiVersion, VERSION)
 }
 
-// GetEventsUrl -
+// GetEventsUrl - Returning full url to sift science events API
 func (c *Client) GetEventsUrl() string {
 	return c.apiUrl("events")
 }
 
-// GetScoreUrl -
+// GetScoreUrl - Returning full url to sift science score API
 func (c *Client) GetScoreUrl(userId string) string {
 	return c.apiUrl(fmt.Sprintf("score/%s", userId))
 }
 
-// GetScoreUrl -
+// GetScoreUrl - Returning full url to sift science label API
 func (c *Client) GetLabelUrl(userId string) string {
 	return c.apiUrl(fmt.Sprintf("users/%s/labels", userId))
 }
 
-// HttpRequest -
+// HttpRequest - Doing HTTP requests towards sift science API
+// Should be used only if there's no other choice. There are helper methods defined
+// in sift.go for tracking, labeling, etc...
 func (c *Client) HttpRequest(method string, url string, params map[string]interface{}) (*Response, error) {
 	if _, ok := AvailableMethods[strings.ToUpper(method)]; !ok {
 		return nil, fmt.Errorf("Passed request (method: %s) is not supported by Sift Science yet!", method)
@@ -106,7 +109,10 @@ func (c *Client) HttpRequest(method string, url string, params map[string]interf
 	req.Header.Set("User-Agent", c.UserAgent())
 	req.Header.Set("Content-Type", "application/json")
 
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: time.Duration(c.Timeout * time.Second),
+	}
+
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
@@ -141,7 +147,8 @@ func (c *Client) HttpRequest(method string, url string, params map[string]interf
 	return &r, nil
 }
 
-// apiUrl -
+// apiUrl - private helper to get base API url including uri that is provided
+// as argument
 func (c *Client) apiUrl(uri string) string {
 	// Make sure correct API version is set. Fail-safe and to setup defaults
 	if c.ApiVersion == 0 {

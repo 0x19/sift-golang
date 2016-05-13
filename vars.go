@@ -1,13 +1,14 @@
-//
-//
+// Copyright 2016 Nevio Vesic
+// Please check out LICENSE file for more information about what you CAN and what you CANNOT do!
+// MIT License
 
 package sift
 
 var (
-	// NoContentStatusCodes -
+	// NoContentStatusCodes - Here as helper to define if request was successful or not
 	NoContentStatusCodes = map[int]string{204: "", 304: ""}
 
-	// AvailableMethods List of all methods that Sift Science API accepts
+	// AvailableMethods - List of all methods that Sift Science API accepts
 	AvailableMethods = map[string]string{"GET": "get", "POST": "post", "DELETE": "delete"}
 
 	// ErrorCodes A successful API request will respond with an HTTP 200. An invalid API

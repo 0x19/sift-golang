@@ -1,5 +1,6 @@
-//
-//
+// Copyright 2016 Nevio Vesic
+// Please check out LICENSE file for more information about what you CAN and what you CANNOT do!
+// MIT License
 
 package sift
 
@@ -8,12 +9,11 @@ import (
 	"fmt"
 )
 
-// Sift -
 type Sift struct {
 	Client
 }
 
-// Track -
+// Track - Send tracking event towards sift science
 func (s *Sift) Track(event string, params map[string]interface{}, args map[string]interface{}) (*Response, error) {
 	// The name of the event to send. This can either be a reserved
 	// event name such as "$transaction" or "$create_order" or a custom event
@@ -38,17 +38,17 @@ func (s *Sift) Track(event string, params map[string]interface{}, args map[strin
 	return s.HttpRequest("POST", s.GetEventsUrl(), params)
 }
 
-// Score -
+// Score - Get out user score
 func (s *Sift) Score(userID string) (*Response, error) {
 	return s.HttpRequest("GET", fmt.Sprintf("%s?api_key=%s", s.GetScoreUrl(userID), s.ApiKey), map[string]interface{}{})
 }
 
-// Label -
+// Label - Request labeling for specific user
 func (s *Sift) Label(userID string, params map[string]interface{}) (*Response, error) {
 	return s.HttpRequest("POST", s.GetLabelUrl(userID), params)
 }
 
-// UnLabel -
+// UnLabel - Request unlabeling for specific user
 func (s *Sift) UnLabel(userID string) (*Response, error) {
 	return s.HttpRequest("DELETE", fmt.Sprintf("%s?api_key=%s", s.GetLabelUrl(userID), s.ApiKey), map[string]interface{}{})
 }

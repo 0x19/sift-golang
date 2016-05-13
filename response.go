@@ -1,5 +1,6 @@
-//
-//
+// Copyright 2016 Nevio Vesic
+// Please check out LICENSE file for more information about what you CAN and what you CANNOT do!
+// MIT License
 
 package sift
 
