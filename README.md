@@ -48,8 +48,31 @@ if err != nil {
 log.Printf("Got tracking record: %v", record)
 ```
 
+## Label a user as good or bad
 
+```go
+package main
 
+import (
+  "log"
+  sift "github.com/0x19/sift-golang"
+)
+
+sift := sift.New("your_api_key")
+
+data := map[string]interface{}{
+  "$is_bad":       true,
+  "$reasons":      []string{"$chargeback", "$fraud"},
+  "$description":  "Some description about this user..."
+}
+
+record, err := sift.Label("some-user-id", data)
+if err != nil {
+  panic(err)
+}
+
+log.Printf("Got label record: %v", record)
+```
 
 ## License
 
