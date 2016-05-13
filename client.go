@@ -16,26 +16,6 @@ import (
 	"time"
 )
 
-type ActionResponse struct{}
-
-// Response -
-type Response struct {
-	// Used for debugging purposes I guess....
-	HTTPStatus       string      `json:"-"`
-	HTTPStatusCode   int         `json:"-"`
-	HTTPStatusHeader http.Header `json:"-"`
-	HTTPResponseBody string      `json:"-"`
-	// ------------------------------------------------------------
-
-	Status       int              `json:"status,omitempty"`
-	UserID       string           `json:"user_id,omitempty"`
-	ErrorMessage string           `json:"error_message,omitempty"`
-	Time         time.Duration    `json:"time,omitempty"`
-	Score        int              `json:"score,omitempty"`
-	Request      string           `json:"request,omitempty"`
-	Actions      []ActionResponse `json:"actions,omitempty"`
-}
-
 // IsOK - Check status of response. Is it error'ed or succeed?
 func (r *Response) IsOK() bool {
 	if _, ok := NoContentStatusCodes[r.HTTPStatusCode]; ok {
@@ -88,36 +68,21 @@ func (c *Client) UserAgent() string {
 
 // GetEventsUrl -
 func (c *Client) GetEventsUrl() string {
-	return c.BuildApiUrl("events")
+	return c.apiUrl("events")
 }
 
 // GetScoreUrl -
 func (c *Client) GetScoreUrl(userId string) string {
-	return c.BuildApiUrl(fmt.Sprintf("score/%s", userId))
+	return c.apiUrl(fmt.Sprintf("score/%s", userId))
 }
 
 // GetScoreUrl -
 func (c *Client) GetLabelUrl(userId string) string {
-	return c.BuildApiUrl(fmt.Sprintf("users/%s/labels", userId))
+	return c.apiUrl(fmt.Sprintf("users/%s/labels", userId))
 }
 
-// BuildApiUrl -
-func (c *Client) BuildApiUrl(uri string) string {
-	// Make sure correct API version is set. Fail-safe and to setup defaults
-	if c.ApiVersion == 0 {
-		c.SetApiVersion(API_VERSION)
-	}
-
-	// Make sure correct API URL is set. Fail-safe and setup defaults.
-	if c.ApiUrl == "" {
-		c.SetApiUrl(API_URL)
-	}
-
-	return fmt.Sprintf("%s/v%d/%s", c.ApiUrl, c.ApiVersion, uri)
-}
-
-// GetRequest -
-func (c *Client) GetRequest(method string, url string, params map[string]interface{}) (*Response, error) {
+// HttpRequest -
+func (c *Client) HttpRequest(method string, url string, params map[string]interface{}) (*Response, error) {
 	if _, ok := AvailableMethods[strings.ToUpper(method)]; !ok {
 		return nil, fmt.Errorf("Passed request (method: %s) is not supported by Sift Science yet!", method)
 	}
@@ -173,4 +138,19 @@ func (c *Client) GetRequest(method string, url string, params map[string]interfa
 	}
 
 	return &r, nil
+}
+
+// apiUrl -
+func (c *Client) apiUrl(uri string) string {
+	// Make sure correct API version is set. Fail-safe and to setup defaults
+	if c.ApiVersion == 0 {
+		c.SetApiVersion(API_VERSION)
+	}
+
+	// Make sure correct API URL is set. Fail-safe and setup defaults.
+	if c.ApiUrl == "" {
+		c.SetApiUrl(API_URL)
+	}
+
+	return fmt.Sprintf("%s/v%d/%s", c.ApiUrl, c.ApiVersion, uri)
 }

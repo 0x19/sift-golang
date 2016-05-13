@@ -14,33 +14,43 @@ type Sift struct {
 }
 
 // Track -
-func (s *Sift) Track(event string, properties map[string]interface{}, args map[string]interface{}) (*Response, error) {
+func (s *Sift) Track(event string, params map[string]interface{}, args map[string]interface{}) (*Response, error) {
 	// The name of the event to send. This can either be a reserved
 	// event name such as "$transaction" or "$create_order" or a custom event
 	// name (that does not start with a $).
-	properties["$type"] = event
+	params["$type"] = event
 
 	// Whether the API response should include a score for this
 	// user (the score will be calculated using this event).  This feature must be
 	// enabled for your account in order to use it.  Please contact
 	// support@siftscience.com if you are interested in using this feature.
 	if score, ok := args["return_score"]; ok {
-		properties["return_score"] = score.(bool)
+		params["return_score"] = score.(bool)
 	}
 
 	// Whether the API response should include actions in the response. For
 	// more information on how this works, please visit the tutorial at:
 	// https://siftscience.com/resources/tutorials/formulas
 	if action, ok := args["return_action"]; ok {
-		properties["return_action"] = action.(bool)
+		params["return_action"] = action.(bool)
 	}
 
-	return s.GetRequest("POST", s.GetEventsUrl(), properties)
+	return s.HttpRequest("POST", s.GetEventsUrl(), params)
 }
 
 // Score -
-func (s *Sift) Score(userId string) (*Response, error) {
-	return s.GetRequest("GET", fmt.Sprintf("%s?api_key=%s", s.GetScoreUrl(userId), s.ApiKey), map[string]interface{}{})
+func (s *Sift) Score(userID string) (*Response, error) {
+	return s.HttpRequest("GET", fmt.Sprintf("%s?api_key=%s", s.GetScoreUrl(userID), s.ApiKey), map[string]interface{}{})
+}
+
+// Label -
+func (s *Sift) Label(userID string, params map[string]interface{}) (*Response, error) {
+	return s.HttpRequest("POST", s.GetLabelUrl(userID), params)
+}
+
+// UnLabel -
+func (s *Sift) UnLabel(userID string) (*Response, error) {
+	return s.HttpRequest("DELETE", fmt.Sprintf("%s?api_key=%s", s.GetLabelUrl(userID), s.ApiKey), map[string]interface{}{})
 }
 
 // New - Return Sift API client.
