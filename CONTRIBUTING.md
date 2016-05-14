@@ -26,7 +26,7 @@ contribute.
 
 **We do accept GitHub pull requests**
 
-Unless otherwise noted, the Golang.hr source files are distributed under
+Unless otherwise noted, the [Sift Golang] source files are distributed under
 the MIT-style license found in the LICENSE file.
 
 [Sift Golang]: <https://github.com/0x19/sift-golang>
