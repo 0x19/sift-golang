@@ -70,7 +70,6 @@ func main() {
 	}
 
 	extras := map[string]interface{}{
-		"return_score":  true,
 		"return_action": true,
 	}
 
