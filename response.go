@@ -20,7 +20,7 @@ type Label struct {
 // Reason -
 type Reason struct {
 	Name    string `json:"name,omitempty"`
-	Value   int    `json:"value,omitempty"`
+	Value   string    `json:"value,omitempty"`
 	Details struct {
 		Users string `json:"users,omitempty"`
 	} `json:"details,omitempty"`
