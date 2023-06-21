@@ -155,7 +155,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	log.Printf("Got score response: %v", record)
+	log.Printf("Got score response: %v", record.Score)
 }
 ```
 
